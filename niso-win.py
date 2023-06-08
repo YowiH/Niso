@@ -12,13 +12,13 @@ from subprocess import call
 INPUT_FILE = "./notes.json"
 
 # Path to the directory where we'll save the converted notes:
-OUTPUT_DIRECTORY = "./notes_converted/"
+OUTPUT_DIRECTORY = "./notes/"
 
 # Should the creation time of the created files be set to the creation
 # time of the original notes?
 # Will fail if you're not on a Mac, or don't have Xcode installed -
 # in which case set this to False.
-KEEP_ORIGINAL_CREATION_TIME = True
+KEEP_ORIGINAL_CREATION_TIME = False
 
 # Should the last-modified time of the created files be set to the
 # last-modified time of the original notes?
@@ -36,10 +36,10 @@ def main():
     if not os.path.isfile(INPUT_FILE):
         sys.exit(f"{INPUT_FILE} is not a file")
 
-    tag_position = input("\nWhere should tags be put? Either 'start' or 'end' (default is 'end'):")
+    tag_position = input("\nWhere should tags be put? Either 'start' or 'end' (default is 'start'):")
 
     if tag_position == "":
-        tag_position = "end"
+        tag_position = "start"
 
     if tag_position not in ["start", "end"]:
         sys.exit("Enter either 'start' or 'end'.")
@@ -109,7 +109,7 @@ def main():
                     filename = filename_start + ".md"
 
                 # Need to remove any forward slashes or colons:
-                filename = filename.replace("/", "").replace(":", "")
+                filename = filename.replace("/", "").replace(":", "").replace("# ", "")
                 filepath = os.path.join(OUTPUT_DIRECTORY, filename)
 
                 # Keep track of this filename and how many times it's been used:
